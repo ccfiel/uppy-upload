@@ -5,8 +5,17 @@
 	import XHRUpload from '@uppy/xhr-upload';
 	import { browser } from '$app/environment';
 
+	let uppy1: any;
+	let uppy2: any;
+
 	const createUppy = () => {
-		return new Uppy().use(Webcam).use(XHRUpload, {
+		uppy1 = new Uppy().use(Webcam).use(XHRUpload, {
+			bundle: true,
+			endpoint: 'http://localhost:9967/upload',
+			allowedMetaFields: ['something'],
+			fieldName: 'files'
+		});
+		uppy2 = new Uppy().use(Webcam).use(XHRUpload, {
 			bundle: true,
 			endpoint: 'http://localhost:9967/upload',
 			allowedMetaFields: ['something'],
@@ -14,12 +23,12 @@
 		});
 	};
 
-	let uppy1 = createUppy();
-	let uppy2 = createUppy();
-	let open = false;
-	let showInlineDashboard = true;
+	$: browser && createUppy();
+	$: open = false;
+	$: showInlineDashboard = true;
 </script>
 
+{#if browser}
 <main>
 	<h1>Welcome to the <code>@uppy/svelte</code> demo!</h1>
 	<h2>Inline Dashboard</h2>
@@ -54,6 +63,7 @@
 		}}
 	/>
 </main>
+{/if}
 
 <style global>
 	@import '@uppy/core/dist/style.min.css';
