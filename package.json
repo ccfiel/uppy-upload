@@ -29,8 +29,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@uppy/aws-s3-multipart": "^3.3.0",
 		"@uppy/core": "^3.2.0",
 		"@uppy/svelte": "^3.0.2",
+		"@uppy/transloadit": "^3.1.5",
 		"@uppy/webcam": "^3.3.1",
 		"@uppy/xhr-upload": "^3.2.0"
 	}

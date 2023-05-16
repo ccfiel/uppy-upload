@@ -2,25 +2,26 @@
 	import { Dashboard, DashboardModal, DragDrop, ProgressBar } from '@uppy/svelte';
 	import Uppy from '@uppy/core';
 	import Webcam from '@uppy/webcam';
-	import XHRUpload from '@uppy/xhr-upload';
 	import { browser } from '$app/environment';
+	import AwsS3Multipart from '@uppy/aws-s3-multipart';
+	import Transloadit from '@uppy/transloadit';
 
 	let uppy1: any;
 	let uppy2: any;
 
 	const createUppy = () => {
-		uppy1 = new Uppy().use(Webcam).use(XHRUpload, {
-			bundle: true,
-			endpoint: 'http://localhost:9967/upload',
-			allowedMetaFields: ['something'],
-			fieldName: 'files'
+		uppy1 = new Uppy().use(Webcam).use(Transloadit, {
+			assemblyOptions: {
+				params: {
+					auth: { key: 'ca1fb7f141444e9095d2edc66b21e71c' },
+					template_id: 'f6e03ed35b6e4b98999926034c6f982d'
+				}
+			}
 		});
-		uppy2 = new Uppy().use(Webcam).use(XHRUpload, {
-			bundle: true,
-			endpoint: 'http://localhost:9967/upload',
-			allowedMetaFields: ['something'],
-			fieldName: 'files'
-		});
+		// uppy1 = new Uppy().use(Webcam).use(AwsS3Multipart, { companionUrl: 'https://api2-us-east-1.transloadit.com/companion' });
+		uppy2 = new Uppy()
+			.use(Webcam)
+			.use(AwsS3Multipart, { companionUrl: 'https://api2-us-east-1.transloadit.com/companion' });
 	};
 
 	$: browser && createUppy();
