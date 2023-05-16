@@ -18,10 +18,14 @@
 				}
 			}
 		});
-		// uppy1 = new Uppy().use(Webcam).use(AwsS3Multipart, { companionUrl: 'https://api2-us-east-1.transloadit.com/companion' });
-		uppy2 = new Uppy()
-			.use(Webcam)
-			.use(AwsS3Multipart, { companionUrl: 'https://api2-us-east-1.transloadit.com/companion' });
+		uppy2 = new Uppy().use(Webcam).use(Transloadit, {
+			assemblyOptions: {
+				params: {
+					auth: { key: 'ca1fb7f141444e9095d2edc66b21e71c' },
+					template_id: 'f6e03ed35b6e4b98999926034c6f982d'
+				}
+			}
+		});
 	};
 
 	$: browser && createUppy();
